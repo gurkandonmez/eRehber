@@ -1,0 +1,80 @@
+﻿@using eRehber.Entities.Messages;
+@model eRehber.ViewModels.OkViewModel
+@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<div class="col-8">
+
+    <div class="card bg-light mt-2">
+
+        <div class="card-header bg-dark">
+            <div class="card-title">
+                @Model.Header
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="text-justify">
+
+                @foreach (string msg in Model.Items)
+                {
+                    @msg<br />
+                }
+
+            </p>
+            <table class="table table-striped  m-2" id="table">
+                <thead class="thead text-dark card-title">
+                    <tr>
+
+                        <th scope="col">Şube</th>
+                        <th scope="col">Adı Soyadı</th>
+                        <th scope="col">Görev</th>
+                        <th scope="col">Rütbe</th>
+                        <th scope="col">Dh.No</th>
+                   
+
+
+                    </tr>
+                </thead>
+
+
+                <tbody id="content" style="border:1px solid #e1e1e1">
+
+                    @if (ViewBag.Personel != null)
+                    {
+                        foreach (var item in ViewBag.Personel)
+                        {
+                            <tr>
+
+                                <td>@item.SubeAdi</td>
+                                <td>@item.Ad  @item.Soyad</td>
+                                <td>@item.Gorev</td>
+                                <td>@item.Rutbe</td>
+                                <td>@item.DahiliNo</td>
+
+                            </tr>
+                        }
+                    }
+
+
+
+
+                </tbody>
+            </table>
+        </div>
+
+        </div>
+
+    @{
+        string js = string.Empty;
+        if (Model.IsRedirecting)
+        {
+            js = "setTimeout(function (){window.location = '" + Model.RedirectingUrl + "'; }," + Model.RedirectingTimeout + ");";
+        }
+    }
+    <script>
+    $(function () {
+
+    @Html.Raw(js);
+    })
+    </script>
+</div>

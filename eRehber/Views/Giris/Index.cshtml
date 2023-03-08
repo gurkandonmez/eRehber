@@ -1,0 +1,61 @@
+﻿@using eRehber.Entities.ValueObjects
+@model LoginViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/login.css" rel="stylesheet" />
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8 mt-2 mb-2">
+            @Html.ValidationSummary(false)
+            <div class="card  ">
+
+                <div class=" card  card-header bg-dark">
+               
+                        <h7 class="text-white">   Kullanıcı Girişi</h7>
+                    </div>
+            
+                <div class="card-body jumbo-arka">
+                    <div class="mb-3 row">
+
+                        <div class="col-sm-12">
+                            @Html.TextBoxFor(model => model.KullaniciAdi, new { @class = "form-control", placeholder = "Kullanıcı Adı" })
+
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+
+                        <div class="col-sm-12">
+
+                            @Html.TextBoxFor(model => model.Sifre, new { @class = "form-control", placeholder = "Şifre", type = "password" })
+
+
+
+                        </div>
+                    </div>
+                   
+               
+                    <div class="mb-3 row">
+
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-block btn-primary">Giriş Yap</button>
+                           <a href="/Kullanici/SifremiUnuttum" class="btn btn-sm btn-link">Şifremi Unuttum</a>
+                        </div>
+                    </div>
+                </div>
+                <div class=" card card-footer bg-secondary">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-2"></div>
+
+    </div>
+
+
+}
+
+

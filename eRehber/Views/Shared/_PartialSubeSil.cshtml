@@ -1,0 +1,58 @@
+﻿@model eRehber.Entities.Sube
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Ad)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Ad)
+    </dd>
+
+</dl>
+
+@using (Html.BeginForm("Sil", "Sube", FormMethod.Post, new { @id = "ListeForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <button id="btnSil" type="button" class="btn btn-primary">Sil</button>
+
+    </div>
+}
+    <script>
+        $("#btnSil").on("click", function () {
+            var formValues = $("#ListeForm").serialize();
+      
+            $.ajax({
+                url: '/Sube/Sil/',
+                type: 'POST',
+                dataType: 'json',
+                data: { 'id': @ViewBag.Id },
+                success: function (data) {
+                    if (data == 0 || data == null) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hata oluştu!',
+                            text: 'Bir hata oluştu.'
+
+                        })
+                    }
+                    else if (data == 1) {
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Tebrikler!',
+                            text: 'Şube Başarıyla Silindi.'
+
+                        })
+                        window.location = "/Sube/Index/", 3000;
+
+                    }
+
+                }
+            });
+        })
+    </script>
+

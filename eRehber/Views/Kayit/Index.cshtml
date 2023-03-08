@@ -1,0 +1,105 @@
+﻿@using eRehber.Entities.ValueObjects
+@model RegisterViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script>
+    $.getJSON("../../il-bolge.json", function (sonuc) {
+        var row = "";
+        $.each(sonuc, function (index, value) {
+            row += '<option value="' + value.il + '">' + value.il + '</option>';
+        })
+        $("#il").append(row);
+     
+    });
+
+</script>
+
+<link href="~/Content/login.css" rel="stylesheet" />
+@using (Html.BeginForm("Index","Kayit",FormMethod.Post))
+{<div class="row">
+        <div class="col-2"></div>
+        <div class="col-8 mt-0 mb-5">
+            @Html.ValidationSummary(false)<hr />
+            <div class="card ">
+
+                <div class=" card card-header bg-dark">
+                  
+                        <h7 class="text-white">Santral İşletmeni Kayıt Formu</h7>
+              
+                </div>
+                <div class="card-body jumbo-arka">
+                    <div class="mb-3 row">
+
+                        <div class="col-sm-12">
+                            @Html.TextBoxFor(model => model.KullaniciAdi, new { @class = "form-control", placeholder = "Kullanıcı Adı" })
+
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+
+                        <div class="col-sm-12">
+
+                            @Html.TextBoxFor(model => model.Sifre, new { @class = "form-control", placeholder = "Şifre", type = "password" })
+
+
+
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+
+                        <div class="col-sm-12">
+                            <input id="inputil" name="inputil" class="form-control mb-2 p-2" list="il" placeholder="İl Adını Giriniz">
+                            <datalist id="il">
+                                <option>İl Seçiniz</option>
+                            </datalist>
+
+
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+
+                        <div class="col-sm-12">
+                            @Html.DropDownList("Guvenlik", new List<SelectListItem>
+
+                  {
+                     new SelectListItem { Text = "Güvenlik Sorusu Seçiniz", Value = "0" },
+                     new SelectListItem { Text = "En Sevdiğiniz Yemek", Value = "En Sevdiğiniz Yemek" },
+                  
+             },
+             new{ @class="form-control"})
+
+
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+
+                        <div class="col-sm-12">
+                            @Html.TextBoxFor(model => model.Cevap, new { @class = "form-control", placeholder = "Cevap Giriniz" })
+
+
+
+
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-block btn-primary">Kayıt Ol</button>
+                        </div>
+                    </div>
+                </div>
+                <div class=" card card-footer bg-secondary">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-2"></div>
+
+    </div>
+
+}
+

@@ -1,0 +1,15 @@
+﻿@using eRehber.BusinessLayer
+@using eRehber.Entities
+@{ 
+    SubeManager sm = new SubeManager();
+    List<Sube> list = sm.List().OrderBy(x=>x.Sira).ToList();
+}
+<li class="nav-item">
+    <select id="sube" class="form-control mb-lg-3 p-2">
+        <option>Şube Seçiniz</option>
+        @foreach (var q in list)
+        {
+            <option value="@q.ID">@q.Ad</option>
+        }
+    </select>
+</li>

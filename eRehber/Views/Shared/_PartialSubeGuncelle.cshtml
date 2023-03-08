@@ -1,0 +1,70 @@
+﻿
+@model eRehber.Entities.Sube
+@{
+    ViewBag.Title = "Sube Guncelle";
+
+}
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/sweetalert.min.js"></script>
+<link href="~/Styles/sweetalert.css" rel="stylesheet" />
+
+
+@using (Html.BeginForm("Guncelle", "Sube", FormMethod.Post, new { @id = "ListeForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Ad, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Ad, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Ad, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnKaydet" type="button" value="Kaydet" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $("#btnKaydet").on("click", function () {
+        var formValues = $("#ListeForm").serialize();
+        var id = @ViewBag.Id;
+        $.ajax({
+
+            url: '/Sube/Guncelle/' + id,
+            type: 'POST',
+            dataType: 'json',
+         data: formValues,
+            success: function (data) {
+                if (data == 0 || data==null ) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hata oluştu!',
+                        text: 'Şube Adı boş olamaz!'
+
+                    })
+                }
+                else if (data == 1) {
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Tebrikler!',
+                        text: 'Şube Başarıyla Güncellendi.'
+
+                    })
+                    window.location = "/Sube/Index/", 3000;
+
+                }
+            }
+        })
+    })
+</script>
+
+

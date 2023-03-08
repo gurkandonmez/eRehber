@@ -1,0 +1,118 @@
+﻿@model List<eRehber.Entities.Sube>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/sweetalert2.min.js"></script>
+<link href="~/Scripts/sweetalert2.css" rel="stylesheet" />
+<link href="~/Content/stil.css" rel="stylesheet" />
+
+<div class="col-9 mt-2 mb-2">
+
+
+    <div class="card">
+        <div class="card-header bg-dark">
+            <div class="card-title">
+                <h5>Şube Ayarları</h5>
+
+                <a id="btnModal" data-toggle="modal" data-target="#modalSubeEkle" class="btn btn-sm btn-outline-danger"> Şube Ekle</a>
+
+
+            </div>
+        </div>
+
+        <div class="card-body">
+
+
+            @using (Html.BeginForm("Sirala", "Sube"))
+            {
+            <div class="table-responsive">
+                <button type="submit" class="btn btn-sm  btn-primary mb-2">
+                    SIRALA
+                </button>
+                <table style="width:100%" class="table table-bordered">
+                    <thead>
+
+                        <tr>
+                            <th>Sıra</th>
+                            <th>Şube Adı</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td width="50px">
+                                    <input type="text" style="width:45px" name="Sira" value="@item.Sira" id="@item.ID" class="form-control font-weight-bold sira" />
+                                    <input type="hidden" name="ID" value="@item.ID" class="form-control sira" />
+                                </td>
+                                <td width="45px">@item.Ad</td>
+                                <td width="25px"><input type="button" data-toggle="modal" data-target="#modalSubeSil" data-id="@item.ID" class="btn btn-sm btn-danger" value="Sil" /> </td>
+                                <td width="25px"><input type="button" data-toggle="modal" data-id="@item.ID" data-target="#modalSubeGuncelle" class="btn btn-sm btn-success" value="Güncelle" /> </td>
+
+                            </tr>
+                        }
+                        <tr class="bg-transparent">
+                            <td style="border:none" class="float-left">
+                                <button type="submit" class="btn btn-sm  btn-primary">
+                                    SIRALA
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+            }
+        </div>
+ 
+            <div class="card-footer bg-dark"></div>
+
+        </div>
+
+</div>
+
+
+
+
+
+
+
+@Bootstrap.ModalPopup(id: "modalSubeEkle", title: "Şube Ekle", showCloseButton: true)
+@Bootstrap.ModalPopup(id: "modalSubeSil", title: "Şube Sil", showCloseButton: true)
+@Bootstrap.ModalPopup(id: "modalSubeGuncelle", title: "Şube Güncelle", showCloseButton: true)
+<script>
+    $("#modalSubeEkle").on("show.bs.modal", function (e) {
+
+
+        $("#modalSubeEkle_body").load("/Sube/Ekle/");
+
+
+    })
+    $("#modalSubeSil").on("show.bs.modal", function (e) {
+
+        var btn = $(e.relatedTarget);
+        var id = $(btn).data("id");
+        $("#modalSubeSil_body").load("/Sube/Sil/" + id);
+
+
+    })
+    $("#modalSubeGuncelle").on("show.bs.modal", function (e) {
+
+        var btn = $(e.relatedTarget);
+        var id = $(btn).data("id");
+        $("#modalSubeGuncelle_body").load("/Sube/Guncelle/" + id);
+
+
+    })
+</script>

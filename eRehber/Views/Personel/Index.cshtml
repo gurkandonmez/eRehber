@@ -1,0 +1,135 @@
+﻿
+@model List<eRehber.Entities.Personel>
+@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/sweetalert2.min.js"></script>
+<link href="~/Scripts/sweetalert2.css" rel="stylesheet" />
+<link href="~/Content/stil.css" rel="stylesheet" />
+
+@*<script>
+
+    $("form").submit(function () {
+
+        event.preventDefault();
+        $("#modalSonuc").on("show.bs.modal", function (e) {
+
+
+            $("#modalSonuc_body").load("/Personel/Ekle/");
+
+
+        })
+
+
+    })
+</script>*@
+@Html.AntiForgeryToken()
+@Bootstrap.ModalPopup(id: "modalPersonelSil", title: "Personel Silinsin mi?", showCloseButton: true)
+@Bootstrap.ModalPopup(id: "modalPersonelGuncelle", title: "Personel Düzenle", showCloseButton: true)
+@Bootstrap.ModalPopup(id: "modalPersonelEkle", title: "Personel Ekle", showCloseButton: true)
+<script>
+    $("#modalPersonelSil").on("show.bs.modal", function (e) {
+
+        var btn = $(e.relatedTarget);
+        var id = $(btn).data("id");
+        $("#modalPersonelSil_body").load("/Personel/Sil/" + id);
+
+
+    })
+    $("#modalPersonelEkle").on("show.bs.modal", function (e) {
+
+
+        $("#modalPersonelEkle_body").load("/Personel/Ekle/");
+
+
+    })
+    $("#modalPersonelGuncelle").on("show.bs.modal", function (e) {
+
+        var btn = $(e.relatedTarget);
+        var id = $(btn).data("id");
+        $("#modalPersonelGuncelle_body").load("/Personel/Guncelle/" + id);
+
+
+    })
+</script>
+<div class="col-9" >
+    <div class="card bg-light mt-2">
+
+        <div class="card-header bg-dark">
+            <div class="card-title">
+             Personel Ekleme - Rehber Yükleme Ekranı
+                <div class="float-right">
+                    <input type="submit" data-toggle="modal" data-target="#modalPersonelEkle" data id="Import" value="Personel Ekle" class="btn btn-secondary font-weight-bolder btn-sm" />
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Import", "Personel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+            <div class="row">
+                <div class="col-12 mb-2">   <b>Rehber Yükle</b> Sadece Excel dosyası yükleyebilirsiniz örnek excel dosyasını indirmek için tıklayınız.</div>
+            </div>
+                <div class="row">
+            
+                    
+                    <div class="col-8">
+                        <input type="file" name="excelfile" id="excelfile" class="form-control" />
+
+                    </div>
+                    <div class="col-4">
+                        <input type="submit" data-toggle="modal" data-target="modalSonuc" data id="Import" value="Kaydet" class="btn btn-success  btn-block" />
+                    </div>
+                    <div class="col-8">
+                        <p class="text-warning">@ViewBag.Hata</p>
+                    </div>
+                </div>
+            }
+            <table class="table table-striped  m-2" id="table">
+                <thead class="thead text-dark card-title">
+                    <tr>
+
+                        <th scope="col">Şube</th>
+                        <th scope="col">Adı Soyadı</th>
+                        <th scope="col">Görev</th>
+                        <th scope="col">Rütbe</th>
+                        <th scope="col">Dh.No</th>
+                        <th scope="col">Sil</th>
+                        <th scope="col">Güncelle</th>
+
+
+                    </tr>
+                </thead>
+
+
+                <tbody id="content" style="border:1px solid #e1e1e1">
+
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr >
+
+                                <td  width="150px">@item.SubeAdi</td>
+                                <td>@item.Ad  @item.Soyad</td>
+                                <td>@item.Gorev</td>
+                                <td>@item.Rutbe</td>
+                                <td>@item.DahiliNo</td>
+                                <td width="25px"><input type="button" data-toggle="modal" data-target="#modalPersonelSil" data-id="@item.ID" class="btn btn-sm btn-danger btn-block" value="Sil" /> </td>
+                                <td width="25px"><input type="button" data-toggle="modal" data-id="@item.ID" data-target="#modalPersonelGuncelle" class="btn btn-sm btn-dark btn-block" value="Güncelle" /> </td>
+
+                            </tr>
+                        }
+                    }
+
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

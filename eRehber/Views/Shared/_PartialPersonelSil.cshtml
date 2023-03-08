@@ -1,0 +1,71 @@
+﻿@model eRehber.Entities.Personel
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Ad) &nbsp; @Html.DisplayNameFor(model => model.Soyad)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Ad)&nbsp;         @Html.DisplayFor(model => model.Soyad)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Rutbe)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Rutbe)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Gorev)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Gorev)
+    </dd>
+</dl>
+
+@using (Html.BeginForm("Sil", "Personel", FormMethod.Post, new { @id = "ListeForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <button id="btnSil" type="button" class="btn btn-primary">Sil</button>
+
+    </div>
+}
+<script>
+        $("#btnSil").on("click", function () {
+            var formValues = $("#ListeForm").serialize();
+
+            $.ajax({
+                url: '/Personel/Sil/',
+                type: 'POST',
+                dataType: 'json',
+                data: { 'id': @ViewBag.Id },
+                success: function (data) {
+                    if (data == 0 || data == null) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hata oluştu!',
+                            text: 'Bir hata oluştu.'
+
+                        })
+                    }
+                    else if (data == 1) {
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Tebrikler!',
+                            text: 'Personel Başarıyla Silindi.'
+
+                        })
+                        window.location = "/Personel/Index/", 3000;
+
+                    }
+
+                }
+            });
+        })
+</script>
+
+

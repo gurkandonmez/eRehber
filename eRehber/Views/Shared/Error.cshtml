@@ -1,0 +1,33 @@
+﻿@using eRehber.Entities.Messages;
+@model eRehber.ViewModels.ErrorViewModel
+@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<div class="col-8">
+    <div class="card bg-light mt-2">
+
+        <div class="card-header bg-dark">
+            <div class="card-title">
+                @Model.Header
+            </div>
+        </div>
+        <div class="card-body">
+
+            <p class="text-justify">@Model.Title</p>
+
+        </div>
+    </div>
+    @{
+        string js = string.Empty;
+        if (Model.IsRedirecting)
+        {
+            js = "setTimeout(function (){window.location = '" + Model.RedirectingUrl + "'; }," + Model.RedirectingTimeout + ");";
+        }
+    }
+    <script>
+    $(function () {
+   
+    @Html.Raw(js);
+    })
+    </script>
+</div>

@@ -1,0 +1,50 @@
+﻿@using eRehber.Entities.Messages;
+@model eRehber.ViewModels.RegViewModel
+@{
+    ViewBag.Title = "Reg";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8 mt-2 mb-2">
+        @Html.ValidationSummary(false)<hr />
+        <div class="card ">
+
+            <div class=" card card-header bg-danger">
+                <div class="card-title">
+                    <h7>            @Model.Header</h7>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="text-justify">
+
+                    @foreach (string msg in Model.Items)
+                    {
+                        @msg<br />
+                    }
+
+                </p>
+            </div>
+            <div class=" card card-footer bg-secondary">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-2"></div>
+
+</div>
+
+@{
+    string js = string.Empty;
+    if (Model.IsRedirecting)
+    {
+        js = "setTimeout(function (){window.location = '" + Model.RedirectingUrl + "'; }," + Model.RedirectingTimeout + ");";
+    }
+}
+<script>
+    $(function () {
+
+    @Html.Raw(js);
+    })
+</script>

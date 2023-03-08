@@ -1,0 +1,89 @@
+﻿@model IEnumerable<eRehber.Entities.Kullanici>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/sweetalert2.min.js"></script>
+<link href="~/Scripts/sweetalert2.css" rel="stylesheet" />
+<link href="~/Content/stil.css" rel="stylesheet" />
+
+@Bootstrap.ModalPopup(id: "modalKullaniciSil", title: "Personel Silinsin mi?", showCloseButton: true)
+@Bootstrap.ModalPopup(id: "modalKullaniciDuzenle", title: "Personel Onaylansın mı?", showCloseButton: true)
+
+<script>
+    $("#modalKullaniciSil").on("show.bs.modal", function (e) {
+
+        var btn = $(e.relatedTarget);
+        var id = $(btn).data("id");
+        $("#modalKullaniciSil_body").load("/Editor/Sil/" + id);
+
+
+    })
+
+    $("#modalKullaniciDuzenle").on("show.bs.modal", function (e) {
+
+        var btn = $(e.relatedTarget);
+        var id = $(btn).data("id");
+        $("#modalKullaniciDuzenle_body").load("/Editor/Guncelle/" + id);
+
+
+    })
+</script>
+<div class="col-8">
+    <div class="card bg-light mt-2">
+
+        <div class="card-header bg-dark">
+            <div class="card-title">
+                Kullanıcı Onay Ekranı
+
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="text-justify  text-dark font-weight-bold">Onaylanmamış Kullanıcılar Listesi</p>
+            <table class="table table-striped  m-2" id="table">
+                <thead class="thead text-dark card-title">
+                    <tr>
+
+                        <th scope="col">Kullanıcı Adı</th>
+                        <th scope="col">İl</th>
+                        <th scope="col">Sil</th>
+                        <th scope="col">Düzenle</th>
+
+
+
+                    </tr>
+                </thead>
+
+
+                <tbody id="content" style="border:1px solid #e1e1e1">
+
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>@item.KullaniciAdi</td>
+                                <td>@item.IlAdi</td>
+                                <td><input type="button" data-toggle="modal" data-target="#modalKullaniciSil" data-id="@item.ID" class="btn btn-sm btn-danger btn-block" value="Sil" /> </td>
+                                <td><input type="button" data-toggle="modal" data-id="@item.ID" data-target="#modalKullaniciDuzenle" class="btn btn-sm btn-dark btn-block" value="Güncelle" /> </td>
+
+                            </tr>
+                        }
+                    }
+
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+

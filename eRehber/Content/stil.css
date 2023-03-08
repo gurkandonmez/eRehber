@@ -1,0 +1,22 @@
+﻿body {
+}
+
+.jumbo-arka {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.12)
+}
+
+.card-arka {
+    background-color: rgba(0, 0, 0, 0.19)
+}
+
+.cardheader-arka {
+    background-color: #2a52be;
+}
+.card-title {
+    color: #fff;
+    font-weight: bold
+}
+footer{
+    display:block !important;
+}
